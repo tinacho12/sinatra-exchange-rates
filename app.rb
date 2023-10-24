@@ -27,3 +27,27 @@ get("/") do
   # render a view template where I show the symbols
   erb(:homepage)
 end
+
+get("/:from_currency") do
+
+  @original_currency = params.fetch("from_currency")
+  
+  api_url = "https://api.exchangerate.host/list?access_key=#{ENV.fetch("EXCHANGE_RATES_KEY")}"
+
+  # some more code to parse the URL and render a view template
+
+  raw_data = HTTP.get(api_url)
+
+  # convert the raw request to a string
+  raw_data_string = raw_data.to_s
+
+  # convert the string to JSON
+  parsed_data = JSON.parse(raw_data_string)
+
+  # get the symbols from the JSON
+  @currencies_hash = parsed_data.fetch("currencies")
+  @symbols = @currencies_hash.keys
+  #@original_currency_order = @symbols.index(@original_currency)
+
+  erb(:symbol_page)
+end
