@@ -20,16 +20,9 @@ get("/") do
   # convert the string to JSON
   parsed_data = JSON.parse(raw_data_string)
 
-  currencies_hash = parsed_data.fetch("currencies")
-  
   # get the symbols from the JSON
-  # @symbols = parsed_data ...
-
-  currencies_hash.each do |currency|
-    keys = currencies_hash.keys
-    @currency = []
-    @currency.push(keys)
-  end
+  @currencies_hash = parsed_data.fetch("currencies")
+  @symbols = @currencies_hash.keys
 
   # render a view template where I show the symbols
   erb(:homepage)
